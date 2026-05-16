@@ -1,0 +1,221 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  admin
+  superadmin
+}
+
+model User {
+  id                Int        @id @default(autoincrement())
+  username          String     @unique
+  email             String     @unique
+  password          String
+  isVerified        Boolean    @default(false)
+  token             String?    @db.VarChar(255)
+  verifyTokenExpiry DateTime?
+  resetToken        String?    @db.VarChar(255)
+  resetTokenExpiry  DateTime?
+  loginAttempts     Int        @default(0)
+  lockedUntil       DateTime?
+  role              Role       @default(user)
+  googleId          String?    @unique
+  microsoftId       String?    @unique
+  referralCode      String?    @unique
+  referredById      Int?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  profile           UserProfile?
+  wishlists         Wishlist[]
+  orders            Order[]
+  subscriptions     UserSubscription[]
+  movies            Movie[]    @relation("UserMovies")
+  
+  referredBy        User?      @relation("UserReferrals", fields: [referredById], references: [id])
+  referrals         User[]     @relation("UserReferrals")
+  balance           UserBalance?
+  transactions      TransactionHistory[]
+  commissionsEarned ReferralCommission[] @relation("ReferrerCommissions")
+  commissionsPaid   ReferralCommission[] @relation("RefereeCommissions")
+
+  @@map("users")
+}
+
+model UserProfile {
+  id        Int     @id @default(autoincrement())
+  userId      Int     @unique
+  fullName    String?
+  phoneNumber String?
+  avatar      String? @db.Text
+  city      String?
+  country   String?
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+model Genre {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+
+  movies Movie[]
+
+  @@map("genres")
+}
+
+model Movie {
+  id              Int      @id @default(autoincrement())
+  title           String
+  description     String?  @db.Text
+  fullDescription String?  @db.Text
+  image           String?  @db.Text
+  rating          Float?
+  year            Int?
+  category        String?
+  isNewEpisode    Boolean  @default(false)
+  trailerId       String?
+  imdbLink        String?
+  tomatoLink      String?
+  genreId         Int?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  authorId        Int?
+  author          User?       @relation("UserMovies", fields: [authorId], references: [id])
+  genre           Genre?      @relation(fields: [genreId], references: [id])
+  wishlists       Wishlist[]
+  views           MovieView[]
+
+  @@map("movies")
+}
+
+model MovieView {
+  id        Int      @id @default(autoincrement())
+  movieId   Int
+  viewedAt  DateTime @default(now())
+
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@index([movieId, viewedAt])
+  @@map("movie_views")
+}
+
+model Wishlist {
+  id      Int @id @default(autoincrement())
+  userId  Int
+  movieId Int
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
+  @@map("wishlists")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  total     Float    @default(0)
+  createdAt DateTime @default(now())
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@map("orders")
+}
+
+model Payment {
+  id              Int      @id @default(autoincrement())
+  orderId         Int
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+// === Subscription System ===
+
+model Package {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  price       Float
+  durationDays Int     @default(30)
+  features    String?  @db.Text
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  subscriptions UserSubscription[]
+
+  @@map("packages")
+}
+
+model UserSubscription {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  packageId  Int
+  startDate  DateTime @default(now())
+  endDate    DateTime
+  isActive   Boolean  @default(false)
+  paymentId  Int?
+  createdAt  DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package Package @relation(fields: [packageId], references: [id])
+
+  @@map("user_subscriptions")
+}
+
+// === Balance and Referral System ===
+
+model UserBalance {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  balance   Float    @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_balances")
+}
+
+model TransactionHistory {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  amount    Float
+  type      String   // "TOPUP", "SUBSCRIPTION", "COMMISSION"
+  status    String   @default("PENDING") // "PENDING", "SUCCESS", "FAILED"
+  createdAt DateTime @default(now())
+  description String? @db.Text
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("transaction_histories")
+}
+
+model ReferralCommission {
+  id            Int      @id @default(autoincrement())
+  referrerId    Int
+  refereeId     Int
+  amount        Float
+  createdAt     DateTime @default(now())
+
+  referrer      User     @relation("ReferrerCommissions", fields: [referrerId], references: [id], onDelete: Cascade)
+  referee       User     @relation("RefereeCommissions", fields: [refereeId], references: [id], onDelete: Cascade)
+
+  @@map("referral_commissions")
+}

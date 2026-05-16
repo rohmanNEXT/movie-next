@@ -1,0 +1,49 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "serve": "next start -p $PORT",
+    "lint": "next lint",
+    "test": "npx cypress verify & cypress run --component",
+    "server": "json-server --watch server/db.json --port 8000"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "autoprefixer": "^10.5.0",
+    "axios": "^1.16.0",
+    "clsx": "^2.1.1",
+    "cross-env": "^7.0.3",
+    "formik": "^2.4.9",
+    "framer-motion": "^12.38.0",
+    "lucide-react": "^1.14.0",
+    "next": "14.0.4",
+    "postcss": "^8.5.13",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.6.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.14.2",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss": "^4.2.4",
+    "yup": "^1.7.1",
+    "zustand": "^5.0.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "concurrently": "^9.2.1",
+    "cypress": "^13.6.2",
+    "eslint": "^8",
+    "eslint-config-next": "14.0.4",
+    "json-server": "^1.0.0-beta.15",
+    "typescript": "^5"
+  }
+}

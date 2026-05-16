@@ -1,0 +1,238 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "title": "Duty After School",
+      "image": "https://image.tmdb.org/t/p/w500/gLeWTHccMPI60VGs8geiq1b5btV.jpg",
+      "rating": 4.8,
+      "year": 2023,
+      "category": "Series",
+      "isNewEpisode": true,
+      "trailerId": "zYiXxz8Ft0U",
+      "imdbLink": "https://www.imdb.com/title/tt26675413/",
+      "tomatoLink": "https://www.rottentomatoes.com/tv/duty_after_school",
+      "description": "Sebuah benda tak dikenal mengambil alih dunia.",
+      "fullDescription": "Students fight alien spheres."
+    },
+    {
+      "id": "2",
+      "title": "Squid Game",
+      "image": "https://image.tmdb.org/t/p/w500/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg",
+      "rating": 4.9,
+      "year": 2021,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "oqxAJKy0ii4",
+      "description": "Game mematikan demi uang"
+    },
+    {
+      "id": "3",
+      "title": "Money Heist #",
+      "image": "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg",
+      "rating": 4.8,
+      "year": 2017,
+      "category": "Series",
+      "isNewEpisode": true,
+      "trailerId": "_InqQJRqGW4",
+      "description": "Perampokan besar"
+    },
+    {
+      "id": "4",
+      "title": "All of Us Are Dead",
+      "image": "https://image.tmdb.org/t/p/w500/z8CExJekGrEThbpMXAmCFvvgoJR.jpg",
+      "rating": 4.7,
+      "year": 2022,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "IN5TD4VRcSM",
+      "description": "Zombie outbreak"
+    },
+    {
+      "id": "5",
+      "title": "Stranger Things",
+      "image": "https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",
+      "rating": 4.9,
+      "year": 2016,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "b9EkMc79ZSU",
+      "description": "Mystery supernatural"
+    },
+    {
+      "id": "6",
+      "title": "The Witcher",
+      "image": "https://image.tmdb.org/t/p/w500/7vjaCdMw15FEbXyLQTVa04URsPm.jpg",
+      "rating": 4.5,
+      "year": 2019,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "ndl1W4ltcmg",
+      "description": "Monster hunter"
+    },
+    {
+      "id": "7",
+      "title": "Wednesday",
+      "image": "https://image.tmdb.org/t/p/w500/9PFonBhy4cQy7Jz20NpMygczOkv.jpg",
+      "rating": 4.8,
+      "year": 2022,
+      "category": "Series",
+      "isNewEpisode": true,
+      "trailerId": "Di310WS8zLk",
+      "description": "Dark mystery"
+    },
+    {
+      "id": "8",
+      "title": "Alice in Borderland",
+      "image": "https://image.tmdb.org/t/p/w500/20mOwAAPwZ1vLQkw0fvuQHiG7bO.jpg",
+      "rating": 4.7,
+      "year": 2020,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "49_44FFKZ1M",
+      "description": "Survival game"
+    },
+    {
+      "id": "9",
+      "title": "Breaking Bad",
+      "image": "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
+      "rating": 4.9,
+      "year": 2008,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "HhesaQXLuRY",
+      "description": "Chemistry to crime"
+    },
+    {
+      "id": "10",
+      "title": "Peaky Blinders",
+      "image": "https://image.tmdb.org/t/p/w500/bGZn5RVzMMXju4ev7xbl1aLdXqq.jpg",
+      "rating": 4.8,
+      "year": 2013,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "oVzVdvGIC7U",
+      "description": "Gangster story"
+    },
+    {
+      "id": "11",
+      "title": "The Queen's Gambit",
+      "image": "https://image.tmdb.org/t/p/w500/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg",
+      "rating": 4.8,
+      "year": 2020,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "CDrieqwSdgI",
+      "description": "Chess prodigy"
+    },
+    {
+      "id": "12",
+      "title": "Narcos",
+      "image": "https://image.tmdb.org/t/p/w500/rTmal9fDbwh5F0waol2hq35U4ah.jpg",
+      "rating": 4.8,
+      "year": 2015,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "xl8zdCY-abw",
+      "description": "Drug empire"
+    },
+    {
+      "id": "14",
+      "title": "Spider-Man: No Way Home",
+      "image": "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "rating": 4.8,
+      "year": 2021,
+      "category": "Action",
+      "isNewEpisode": false,
+      "trailerId": "JfVOs4VSpmA",
+      "description": "Multiverse chaos"
+    },
+    {
+      "id": "15",
+      "title": "Top Gun: Maverick",
+      "image": "https://image.tmdb.org/t/p/w500/8QVDXDiOGHRcAD4oM6MXjE0osSj.jpg",
+      "rating": 4.9,
+      "year": 2022,
+      "category": "Action",
+      "isNewEpisode": false,
+      "trailerId": "giXco2jaZ_4",
+      "description": "Pilot legacy"
+    },
+    {
+      "id": "16",
+      "title": "Avatar: The Way of Water",
+      "image": "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+      "rating": 4.7,
+      "year": 2022,
+      "category": "Action",
+      "isNewEpisode": false,
+      "trailerId": "d9MyW72ELq0",
+      "description": "Pandora battle"
+    },
+    {
+      "id": "17",
+      "title": "Oppenheimer",
+      "image": "https://image.tmdb.org/t/p/w500/ptpr0kGAckfQkJeJIt8st5dglvd.jpg",
+      "rating": 4.9,
+      "year": 2023,
+      "category": "Action",
+      "isNewEpisode": false,
+      "trailerId": "uYPbbksJxIg",
+      "description": "Atomic story"
+    },
+    {
+      "id": "18",
+      "title": "Barbie",
+      "image": "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
+      "rating": 4.5,
+      "year": 2023,
+      "category": "Action",
+      "isNewEpisode": false,
+      "trailerId": "pBk4NYhWNMM",
+      "description": "Identity crisis"
+    },
+    {
+      "id": "19",
+      "title": "John Wick 4",
+      "image": "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
+      "rating": 4.8,
+      "year": 2023,
+      "category": "Action",
+      "isNewEpisode": false,
+      "trailerId": "qEVUrkHu32E",
+      "description": "Assassin war"
+    },
+    {
+      "id": "20",
+      "title": "Dune 2",
+      "image": "https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg",
+      "rating": 4.9,
+      "year": 2024,
+      "category": "Action",
+      "isNewEpisode": false,
+      "trailerId": "Way9Dexny3w",
+      "description": "Desert revenge"
+    },
+    {
+      "id": "21",
+      "title": "The Last of Us",
+      "image": "https://image.tmdb.org/t/p/w500/dmo6TYuuJgaYinXBPjrgG9mB5od.jpg",
+      "rating": 4.8,
+      "year": 2023,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "uLtkt8BonwM",
+      "description": "Post-apocalyptic journey"
+    },
+    {
+      "id": "22",
+      "title": "Succession",
+      "image": "https://image.tmdb.org/t/p/w500/7HW47XbkNQ5fiwQFYGWdw9gs144.jpg",
+      "rating": 4.9,
+      "year": 2018,
+      "category": "Series",
+      "isNewEpisode": false,
+      "trailerId": "OzY29QmesZ8",
+      "description": "Media family war"
+    }
+  ]
+}
