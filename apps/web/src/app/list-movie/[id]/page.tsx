@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useMovieStore } from '@/store/feature/movie';
 import { useAuthStore } from '@/store/feature/auth';
 import Image from 'next/image';
+import { getImageUrl } from '@/lib/utils';
 
 const MovieDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -105,7 +106,7 @@ const MovieDetailPage: React.FC = () => {
   // Sync image source when movie changes
   if (movie && movie.id !== prevMovieId) {
     setPrevMovieId(movie.id);
-    setImgSrc(movie.image || '');
+    setImgSrc(getImageUrl(movie.image) || '');
     if (isPreviewMode) setIsPreviewMode(false);
   }
 
@@ -199,11 +200,17 @@ const MovieDetailPage: React.FC = () => {
             >
               {imgSrc && (
                 <Image
-                  src={imgSrc}
+                  src={getImageUrl(imgSrc)}
                   alt={movie.title}
                   fill
                   className="w-full h-full object-cover opacity-50 transition-all duration-1000"
                   referrerPolicy="no-referrer"
+                  unoptimized
+                  onError={() => {
+                    setImgSrc(
+                      `https://picsum.photos/seed/${movie.title.replace(/\s/g, '')}/1920/1080`,
+                    );
+                  }}
                 />
               )}
             </motion.div>
@@ -362,7 +369,7 @@ const MovieDetailPage: React.FC = () => {
                 <div className="relative w-full h-full overflow-hidden">
                   <Image
                     src={
-                      imgSrc ||
+                      getImageUrl(imgSrc) ||
                       `https://picsum.photos/seed/${movie.title.replace(/\s/g, '')}/500/750`
                     }
                     alt={movie.title}

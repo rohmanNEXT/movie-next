@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { LuFilm, LuPlay, LuVolume2, LuVolumeX } from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
 import Modal from '@/components/Modal';
+import { getImageUrl } from '@/lib/utils';
 
 type Movie = {
   id: number;
@@ -166,9 +167,12 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
             />
           ) : movie.image ? (
             <img
-              src={movie.image}
+              src={getImageUrl(movie.image)}
               alt={movie.title}
               className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${movie.title.replace(/\s/g, '')}/1920/1080`;
+              }}
             />
           ) : (
             <div className="w-full h-full bg-white/5" />

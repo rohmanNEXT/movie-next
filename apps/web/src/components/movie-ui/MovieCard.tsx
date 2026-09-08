@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { LuStar } from 'react-icons/lu';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { getImageUrl } from '@/lib/utils';
 
 type MovieCardProps = {
   movie: {
@@ -18,7 +19,11 @@ type MovieCardProps = {
 };
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, isWide }) => {
-  const [imgSrc, setImgSrc] = React.useState(movie.image || '');
+  const [imgSrc, setImgSrc] = React.useState(getImageUrl(movie.image) || '');
+
+  React.useEffect(() => {
+    setImgSrc(getImageUrl(movie.image) || '');
+  }, [movie.image]);
 
   return (
     <Link href={`/movie/${movie.id}`}>

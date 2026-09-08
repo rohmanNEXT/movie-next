@@ -15,6 +15,7 @@ import {
 } from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Movie } from '@/store/feature/movie';
+import { getImageUrl } from '@/lib/utils';
 
 const Navbar: React.FC = () => {
   const user = useAuthStore((state) => state.user);
@@ -412,9 +413,12 @@ const Navbar: React.FC = () => {
                           <div className="relative w-16 h-20 rounded-xl overflow-hidden shrink-0 bg-white/5">
                             {movie.image ? (
                               <img
-                                src={movie.image}
+                                src={getImageUrl(movie.image)}
                                 alt={movie.title}
                                 className="object-cover w-full h-full"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = `https://picsum.photos/seed/${movie.title.replace(/\s/g, '')}/500/750`;
+                                }}
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-gray-600 text-[10px]">
