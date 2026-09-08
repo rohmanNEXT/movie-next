@@ -74,36 +74,25 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
 
     setIsMuted(newMuted);
 
-    localStorage.setItem(
-      'hero-video-muted',
-      String(newMuted),
-    );
+    localStorage.setItem('hero-video-muted', String(newMuted));
   };
 
   const movie = movies[currentIndex];
 
   const nextSlide = useCallback(() => {
-    setCurrentIndex(
-      (prev) => (prev + 1) % movies.length,
-    );
+    setCurrentIndex((prev) => (prev + 1) % movies.length);
 
     setIsPreviewMode(false);
   }, [movies.length]);
 
   const prevSlide = useCallback(() => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + movies.length) % movies.length,
-    );
+    setCurrentIndex((prev) => (prev - 1 + movies.length) % movies.length);
 
     setIsPreviewMode(false);
   }, [movies.length]);
 
   useEffect(() => {
-    if (
-      !isHeroVisible ||
-      isDragging ||
-      isModalOpen
-    ) {
+    if (!isHeroVisible || isDragging || isModalOpen) {
       return;
     }
 
@@ -118,13 +107,7 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
     }, 7000);
 
     return () => clearTimeout(previewTimeout);
-  }, [
-    currentIndex,
-    isHeroVisible,
-    isDragging,
-    nextSlide,
-    isModalOpen,
-  ]);
+  }, [currentIndex, isHeroVisible, isDragging, nextSlide, isModalOpen]);
 
   const handleDragEnd = (
     _event: MouseEvent | TouchEvent | PointerEvent,
@@ -144,10 +127,7 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
   if (!movie) {
     return (
       <div className="relative h-[70vh] sm:h-[80vh] md:h-[90vh] lg:h-[96vh] w-full bg-white/2 flex flex-col items-center justify-center text-white/20 text-sm font-semibold uppercase tracking-widest border-b border-white/5 backdrop-blur-xl">
-        <span className="text-3xl mb-3">
-          🎬
-        </span>
-
+        <span className="text-3xl mb-3">🎬</span>
         Data Kosong
       </div>
     );
@@ -170,14 +150,11 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
             left: 0,
             right: 0,
           }}
-          onDragStart={() =>
-            setIsDragging(true)
-          }
+          onDragStart={() => setIsDragging(true)}
           onDragEnd={handleDragEnd}
           className="absolute inset-0 cursor-grab active:cursor-grabbing"
         >
-          {isPreviewMode &&
-          movie.trailerId ? (
+          {isPreviewMode && movie.trailerId ? (
             <iframe
               src={`https://www.youtube.com/embed/${movie.trailerId}?autoplay=1&mute=${
                 isMuted ? 1 : 0
@@ -235,9 +212,7 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
 
             <div className="flex flex-row items-center gap-3">
               <button
-                onClick={() =>
-                  setIsModalOpen(true)
-                }
+                onClick={() => setIsModalOpen(true)}
                 className="px-5 md:px-6 py-2 md:py-2.5 bg-white/90 text-black/80 hover:bg-white/90 rounded-full font-semibold flex items-center justify-center gap-2 transition-all text-xs md:text-sm shadow-xl active:scale-95 cursor-pointer"
               >
                 <LuPlay size={16} />
@@ -292,9 +267,7 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
 
       <Modal
         isOpen={isModalOpen}
-        onClose={() =>
-          setIsModalOpen(false)
-        }
+        onClose={() => setIsModalOpen(false)}
         title={movie.title}
       >
         <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black/40 flex items-center justify-center">
@@ -308,13 +281,9 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
             />
           ) : (
             <div className="text-white/40 text-sm flex flex-col items-center gap-2">
-              <span className="text-2xl">
-                🎬
-              </span>
+              <span className="text-2xl">🎬</span>
 
-              <span>
-                Trailer tidak tersedia
-              </span>
+              <span>Trailer tidak tersedia</span>
             </div>
           )}
         </div>
@@ -324,4 +293,3 @@ const Hero: React.FC<HeroProps> = ({ movies }) => {
 };
 
 export default Hero;
-

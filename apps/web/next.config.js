@@ -24,6 +24,22 @@ const nextConfig = {
         hostname: 'lh3.googleusercontent.com',
       },
       {
+        protocol: 'http',
+        hostname: 'googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'googleusercontent.com',
+      },
+      {
+        protocol: 'http',
+        hostname: '*.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.googleusercontent.com',
+      },
+      {
         protocol: 'https',
         hostname: 'api.dicebear.com',
       },
@@ -32,7 +48,7 @@ const nextConfig = {
         hostname: 'picsum.photos',
         pathname: '/**',
       },
-            {
+      {
         protocol: 'https',
         hostname: 'www.google.com',
       },

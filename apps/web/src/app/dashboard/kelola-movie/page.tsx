@@ -26,6 +26,7 @@ import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import withAdmin from '@/hoc/withAdmin';
 import connectApi from '@/lib/api';
+import { getImageUrl } from '@/lib/utils';
 import Image from 'next/image';
 
 const MovieManagementComponent: React.FC = () => {
@@ -41,6 +42,7 @@ const MovieManagementComponent: React.FC = () => {
   const [editingId, setEditingId] = useState<number | string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imgPreviewError, setImgPreviewError] = useState<boolean>(false);
+  const [formImgError, setFormImgError] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [localPreview, setLocalPreview] = useState<string | null>(null);
   const itemsPerPage = 20;
@@ -72,6 +74,8 @@ const MovieManagementComponent: React.FC = () => {
   }, [getData, currentPage, searchTerm, searchYear, user?.id]);
 
   const handleOpenModal = (movie?: Movie) => {
+    setFormImgError(false);
+    setLocalPreview(null);
     if (movie) {
       setEditingId(movie.id);
       setFormData(movie);
@@ -353,15 +357,17 @@ const MovieManagementComponent: React.FC = () => {
                               <td className="px-10 py-6">
                                 <div className="flex items-center gap-6">
                                   <div
-                                    onClick={() =>
-                                      setSelectedImage(movie.image)
-                                    }
+                                    onClick={() => {
+                                      setSelectedImage(movie.image || null);
+                                      setImgPreviewError(false);
+                                    }}
                                     className="relative w-14 h-20 shrink-0 group/img cursor-zoom-in rounded-xl overflow-hidden shadow-2xl border border-white/10"
                                   >
                                     <Image
-                                      src={movie.image || ''}
+                                      src={getImageUrl(movie.image)}
                                       alt={movie.title}
                                       fill
+                                      unoptimized
                                       className="object-cover transition-transform group-hover/img:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
@@ -488,13 +494,17 @@ const MovieManagementComponent: React.FC = () => {
                       >
                         <div className="flex gap-8">
                           <div
-                            onClick={() => setSelectedImage(movie.image)}
+                            onClick={() => {
+                              setSelectedImage(movie.image || null);
+                              setImgPreviewError(false);
+                            }}
                             className="relative w-24 h-36 shrink-0 cursor-zoom-in rounded-3xl overflow-hidden shadow-2xl border border-white/10"
                           >
                             <Image
-                              src={movie.image || ''}
+                              src={getImageUrl(movie.image)}
                               alt={movie.title || 'Movie Cover'}
                               fill
+                              unoptimized
                               className="object-cover"
                             />
                             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors rounded-3xl flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -638,9 +648,10 @@ const MovieManagementComponent: React.FC = () => {
                         placeholder="https://..."
                         className="w-full px-5 py-4 bg-white/5 border border-white/10 rounded-2xl text-white/90 focus:outline-none focus:ring-2 focus:ring-purple-600/50 transition-all placeholder:text-gray-600 text-sm"
                         value={formData.image ?? ''}
-                        onChange={(e) =>
-                          setFormData({ ...formData, image: e.target.value })
-                        }
+                        onChange={(e) => {
+                          setFormData({ ...formData, image: e.target.value });
+                          setFormImgError(false);
+                        }}
                       />
 
                       {/* Upload Button Below */}
@@ -662,30 +673,32 @@ const MovieManagementComponent: React.FC = () => {
 
                       {/* Image Preview */}
                       {(localPreview || formData.image) && (
-                        <div className="mt-2 relative w-full h-48 rounded-2xl overflow-hidden border border-white/10">
-                          <Image
-                            src={
-                              localPreview ||
-                              (formData.image
-                                ? formData.image.startsWith('http')
-                                  ? formData.image
-                                  : (
-                                      process.env.NEXT_PUBLIC_API_URL ||
-                                      'http://localhost:8000/api'
-                                    ).replace('/api', '') + formData.image
-                                : '')
-                            }
-                            alt="Preview"
-                            fill
-                            className="object-cover"
-                          />
+                        <div className="mt-2 relative w-full h-48 rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center bg-white/2">
+                          {formImgError ? (
+                            <div className="flex flex-col items-center justify-center gap-2 text-red-400/70">
+                              <FiAlertCircle size={32} strokeWidth={1.5} />
+                              <span className="text-[10px] font-semibold uppercase tracking-widest opacity-80">
+                                Failed to Load
+                              </span>
+                            </div>
+                          ) : (
+                            <Image
+                              src={localPreview || getImageUrl(formData.image)}
+                              alt="Preview"
+                              fill
+                              unoptimized
+                              className="object-cover"
+                              onError={() => setFormImgError(true)}
+                            />
+                          )}
                           <button
                             type="button"
                             onClick={() => {
                               setFormData({ ...formData, image: '' });
                               setLocalPreview(null);
+                              setFormImgError(false);
                             }}
-                            className="absolute top-2 right-2 p-1.5 bg-black/60 rounded-full text-white hover:bg-black/80 transition-all"
+                            className="absolute top-2 right-2 p-1.5 bg-black/60 rounded-full text-white hover:bg-black/80 transition-all z-10 cursor-pointer"
                           >
                             <LuX size={14} />
                           </button>
@@ -946,10 +959,11 @@ const MovieManagementComponent: React.FC = () => {
                   </div>
                 ) : (
                   <Image
-                    src={selectedImage}
+                    src={getImageUrl(selectedImage)}
                     alt="Movie Preview"
                     width={320}
                     height={480}
+                    unoptimized
                     className="max-w-full max-h-[80vh] w-auto h-auto object-contain"
                     referrerPolicy="no-referrer"
                     onError={() => setImgPreviewError(true)}

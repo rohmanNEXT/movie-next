@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { MovieController } from '@/controllers/movie.controller';
 import { verifyToken } from '@/middlewares/auth.middleware';
 import { upload } from '@/utils/multer';
@@ -14,6 +14,24 @@ export class MovieRouter {
   }
 
   private initializeRoutes(): void {
+    // Standalone upload endpoint for frontend dashboard
+    this.router.post(
+      '/upload',
+      upload.fields([{ name: 'file', maxCount: 1 }, { name: 'image', maxCount: 1 }]),
+      (req: Request, res: Response) => {
+        const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
+        const uploadedFile = files?.file?.[0] || files?.image?.[0] || (req as any).file;
+        if (!uploadedFile) {
+          return res.status(400).json({ success: false, message: 'Tidak ada file yang diupload' });
+        }
+        return res.status(200).json({
+          success: true,
+          data: { url: `/uploads/${uploadedFile.filename}` },
+          message: 'File berhasil diupload',
+        });
+      },
+    );
+
     // Movie CRUD
     this.router.get(
       '/movies',

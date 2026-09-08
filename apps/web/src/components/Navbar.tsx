@@ -1,12 +1,20 @@
-import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import { useAuthStore } from "@/store/feature/auth";
-import { useMovieStore } from "@/store/feature/movie";
-import { LuPlay, LuLogOut, LuSearch, LuX, LuMenu, LuLayoutDashboard, LuUser } from "react-icons/lu";
-import { motion, AnimatePresence } from "framer-motion";
-import type { Movie } from "@/store/feature/movie";
+import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
+import { useAuthStore } from '@/store/feature/auth';
+import { useMovieStore } from '@/store/feature/movie';
+import {
+  LuPlay,
+  LuLogOut,
+  LuSearch,
+  LuX,
+  LuMenu,
+  LuLayoutDashboard,
+  LuUser,
+} from 'react-icons/lu';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { Movie } from '@/store/feature/movie';
 
 const Navbar: React.FC = () => {
   const user = useAuthStore((state) => state.user);
@@ -17,8 +25,8 @@ const Navbar: React.FC = () => {
   const handleLogout = () => logout();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState("rilis-baru");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [activeMenu, setActiveMenu] = useState('rilis-baru');
+  const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<Movie[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,8 +40,8 @@ const Navbar: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
@@ -56,7 +64,7 @@ const Navbar: React.FC = () => {
     requestAnimationFrame(() => setIsSearching(true));
     const delay = setTimeout(() => {
       const filtered = allMoviesFromStore.filter((movie: Movie) =>
-        movie.title.toLowerCase().includes(term.toLowerCase())
+        movie.title.toLowerCase().includes(term.toLowerCase()),
       );
       setSearchResults(filtered.slice(0, 12));
       setIsSearching(false);
@@ -66,14 +74,14 @@ const Navbar: React.FC = () => {
   }, [searchTerm, allMoviesFromStore]);
 
   const scrollToSection = (id: string, menu?: string) => {
-    if (pathname !== "/") {
-      router.replace("/");
+    if (pathname !== '/') {
+      router.replace('/');
       setIsMobileMenuOpen(false);
       return;
     }
-    
+
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
     setIsMobileMenuOpen(false);
     setActiveMenu(menu || id);
   };
@@ -83,18 +91,20 @@ const Navbar: React.FC = () => {
       {/* NAVBAR */}
       <nav className="fixed top-0 left-0 right-0 z-50">
         {/* Isolated Background Layer to prevent Nested Backdrop-Filter Bug */}
-        <div className={`absolute inset-0 pointer-events-none transition-[background,backdrop-filter,box-shadow,opacity] duration-300 ease-out ${
-          isScrolled
-            ? "bg-[#020617]/10 backdrop-blur-2xl shadow-black/20"
-            : "bg-transparent"
-        }`} />
+        <div
+          className={`absolute inset-0 pointer-events-none transition-[background,backdrop-filter,box-shadow,opacity] duration-300 ease-out ${
+            isScrolled
+              ? 'bg-[#020617]/10 backdrop-blur-2xl shadow-black/20'
+              : 'bg-transparent'
+          }`}
+        />
         {/* WRAPPER */}
         <div
           className={`relative z-10 w-full flex items-center justify-between transition-all duration-300
   ${
     isScrolled
-      ? "px-6 md:px-12 lg:px-20 xl:px-28 py-2.5"
-      : "px-6 md:px-12 lg:px-20 xl:px-28 py-4 md:py-5"
+      ? 'px-6 md:px-12 lg:px-20 xl:px-28 py-2.5'
+      : 'px-6 md:px-12 lg:px-20 xl:px-28 py-4 md:py-5'
   }`}
         >
           {/* LEFT */}
@@ -118,7 +128,7 @@ const Navbar: React.FC = () => {
 
             <div className="hidden md:flex items-center gap-4 text-xs font-semibold text-gray-300">
               <button
-                onClick={() => scrollToSection("rilis-baru")}
+                onClick={() => scrollToSection('rilis-baru')}
                 className="hover:text-white cursor-pointer"
               >
                 Rilis Baru
@@ -126,17 +136,22 @@ const Navbar: React.FC = () => {
 
               {mounted && user && myList.length > 0 && (
                 <button
-                  onClick={() => scrollToSection("daftar-saya")}
+                  onClick={() => scrollToSection('daftar-saya')}
                   className="hover:text-white cursor-pointer"
                 >
                   Daftar Saya
                 </button>
               )}
-              {mounted && user && (user.role === 'admin' || user.role === 'superadmin') && (
-                <Link href="/dashboard" className="flex items-center gap-1.5 hover:text-white text-purple-400 cursor-pointer">
-                  <LuLayoutDashboard size={14} /> Dashboard
-                </Link>
-              )}
+              {mounted &&
+                user &&
+                (user.role === 'admin' || user.role === 'superadmin') && (
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-1.5 hover:text-white text-purple-400 cursor-pointer"
+                  >
+                    <LuLayoutDashboard size={14} /> Dashboard
+                  </Link>
+                )}
             </div>
           </div>
 
@@ -160,13 +175,13 @@ const Navbar: React.FC = () => {
 
             {mounted && user ? (
               <div className="relative" ref={accountRef}>
-                <button 
+                <button
                   onClick={() => setIsAccountOpen(!isAccountOpen)}
                   className="flex items-center gap-2 md:gap-3 p-1 rounded-full hover:bg-white/10 transition-all active:scale-95 cursor-pointer"
                 >
                   <div className="relative w-7 h-7 md:w-8 md:h-8 rounded-full bg-purple-600/80 shadow-lg shadow-purple-600/20 flex items-center justify-center text-white font-semibold text-[10px] md:text-xs overflow-hidden border border-white/10">
                     <Image
-                      src={`/img/notion-avatar-${(user?.id || 1) % 6 + 1}.png`}
+                      src={`/img/notion-avatar-${((user?.id || 1) % 6) + 1}.png`}
                       alt="Avatar"
                       fill
                       sizes="40px"
@@ -184,20 +199,23 @@ const Navbar: React.FC = () => {
                       className="absolute right-0 mt-4 w-56 glass-dark bg-brand-dark/60 backdrop-blur-2xl rounded-2xl border border-white/10 shadow-2xl overflow-hidden py-2"
                     >
                       <div className="px-5 py-3 border-b border-white/10">
-                        <p className="text-xs font-semibold text-white/50 uppercase tracking-widest">Username</p>
-                        <p className="text-sm font-semibold truncate text-white/80 mt-1">{mounted ? user?.username : ''}</p>
+                        <p className="text-xs font-semibold text-white/50 uppercase tracking-widest">
+                          Username
+                        </p>
+                        <p className="text-sm font-semibold truncate text-white/80 mt-1">
+                          {mounted ? user?.username : ''}
+                        </p>
                       </div>
-                      
+
                       <div className="p-2 space-y-1">
-                        <Link 
-                          href="/dashboard/profile" 
+                        <Link
+                          href="/dashboard/profile"
                           onClick={() => setIsAccountOpen(false)}
                           className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-all cursor-pointer"
                         >
                           👤 Profil Saya
                         </Link>
 
-                        
                         <button
                           onClick={handleLogout}
                           className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-purple-300 hover:text-purple-200 hover:bg-purple-200/10 rounded-xl font-medium transition-all cursor-pointer"
@@ -238,7 +256,7 @@ const Navbar: React.FC = () => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -40, opacity: 0 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              style={{ willChange: "transform, opacity" }}
+              style={{ willChange: 'transform, opacity' }}
               className="fixed top-0 left-0 h-full w-65 z-50 md:hidden
   bg-[#020617]/90 backdrop-blur-2xl border-r border-white/10
   shadow-2xl px-6 py-8"
@@ -265,40 +283,40 @@ const Navbar: React.FC = () => {
               {/* MENU */}
               <div className="flex flex-col gap-6 text-white mt-8">
                 <button
-                  onClick={() => scrollToSection("rilis-baru", "rilis-baru")}
+                  onClick={() => scrollToSection('rilis-baru', 'rilis-baru')}
                   className={`text-left text-lg font-semibold ${
-                    activeMenu === "rilis-baru"
-                      ? "text-purple-400"
-                      : "hover:text-purple-400"
+                    activeMenu === 'rilis-baru'
+                      ? 'text-purple-400'
+                      : 'hover:text-purple-400'
                   }`}
                 >
                   Rilis Baru
                 </button>
 
-
-
                 {mounted && user && myList.length > 0 && (
                   <button
-                    onClick={() => scrollToSection("daftar-saya", "daftar")}
+                    onClick={() => scrollToSection('daftar-saya', 'daftar')}
                     className={`text-left text-lg font-semibold ${
-                      activeMenu === "daftar"
-                        ? "text-purple-400"
-                        : "hover:text-purple-400"
+                      activeMenu === 'daftar'
+                        ? 'text-purple-400'
+                        : 'hover:text-purple-400'
                     }`}
                   >
                     Daftar Saya
                   </button>
                 )}
 
-                {mounted && user && (user.role === 'admin' || user.role === 'superadmin') && (
-                  <Link
-                    href="/dashboard"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-left text-lg font-semibold text-purple-400 hover:text-purple-300 flex items-center gap-2"
-                  >
-                    <LuLayoutDashboard size={20} /> Dashboard
-                  </Link>
-                )}
+                {mounted &&
+                  user &&
+                  (user.role === 'admin' || user.role === 'superadmin') && (
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-left text-lg font-semibold text-purple-400 hover:text-purple-300 flex items-center gap-2"
+                    >
+                      <LuLayoutDashboard size={20} /> Dashboard
+                    </Link>
+                  )}
 
                 {mounted && (!user || !user.subscription?.isActive) && (
                   <div className="border-t border-white/10 pt-6 mt-2">
@@ -315,14 +333,13 @@ const Navbar: React.FC = () => {
                   </div>
                 )}
 
-
                 {mounted && user && (
-                   <button
-                   onClick={handleLogout}
-                   className="text-left text-lg font-semibold text-red-400 hover:text-red-300 flex items-center gap-2"
-                 >
-                   <LuLogOut size={18} /> Keluar
-                 </button>
+                  <button
+                    onClick={handleLogout}
+                    className="text-left text-lg font-semibold text-red-400 hover:text-red-300 flex items-center gap-2"
+                  >
+                    <LuLogOut size={18} /> Keluar
+                  </button>
                 )}
               </div>
             </motion.div>
@@ -400,7 +417,9 @@ const Navbar: React.FC = () => {
                                 className="object-cover w-full h-full"
                               />
                             ) : (
-                              <div className="w-full h-full flex items-center justify-center text-gray-600 text-[10px]">N/A</div>
+                              <div className="w-full h-full flex items-center justify-center text-gray-600 text-[10px]">
+                                N/A
+                              </div>
                             )}
                           </div>
                           <div className="grow">
@@ -409,7 +428,9 @@ const Navbar: React.FC = () => {
                             </h5>
                             {movie.genre && (
                               <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">
-                                <span className="text-purple-400">{movie.genre.name}</span>
+                                <span className="text-purple-400">
+                                  {movie.genre.name}
+                                </span>
                               </div>
                             )}
                           </div>
@@ -430,11 +451,11 @@ const Navbar: React.FC = () => {
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {[
-                        "Duty After School",
-                        "Squid Game",
-                        "Stranger Things",
-                        "The Batman",
-                        "Anime",
+                        'Duty After School',
+                        'Squid Game',
+                        'Stranger Things',
+                        'The Batman',
+                        'Anime',
                       ].map((tag) => (
                         <button
                           key={tag}

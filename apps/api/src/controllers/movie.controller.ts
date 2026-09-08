@@ -84,15 +84,6 @@ export class MovieController {
         }
       }
 
-      if (genreId) {
-        const genre = await prisma.genre.findUnique({
-          where: { id: Number(genreId) }
-        });
-        if (!genre) {
-          return res.status(404).json({ success: false, message: 'Genre tidak ditemukan' });
-        }
-      }
-
       const imagePath = req.file ? `/uploads/${req.file.filename}` : (req.body.image || null);
 
       const movie = await prisma.movie.create({
@@ -101,8 +92,8 @@ export class MovieController {
           description: description || null,
           fullDescription: fullDescription || null,
           image: imagePath,
-          rating: (rating !== undefined && rating !== null) ? parseFloat(String(rating)) : null,
-          year: (year !== undefined && year !== null) ? parseInt(String(year), 10) : null,
+          rating: rating ? parseFloat(String(rating)) : null,
+          year: year ? parseInt(String(year), 10) : null,
           category: category || null,
           isNewEpisode: isNewEpisode === true || isNewEpisode === 'true',
           trailerId: trailerId || null,
@@ -154,14 +145,14 @@ export class MovieController {
       } else if (image !== undefined) {
         data.image = image;
       }
-      if (rating !== undefined) data.rating = (rating !== null) ? parseFloat(String(rating)) : null;
-      if (year !== undefined) data.year = (year !== null) ? parseInt(String(year), 10) : null;
+      if (rating !== undefined) data.rating = rating ? parseFloat(String(rating)) : null;
+      if (year !== undefined) data.year = year ? parseInt(String(year), 10) : null;
       if (category !== undefined) data.category = category;
       if (isNewEpisode !== undefined) data.isNewEpisode = isNewEpisode === true || isNewEpisode === 'true';
       if (trailerId !== undefined) data.trailerId = trailerId;
       if (imdbLink !== undefined) data.imdbLink = imdbLink;
       if (tomatoLink !== undefined) data.tomatoLink = tomatoLink;
-      if (genreId !== undefined) data.genreId = (genreId !== null) ? Number(genreId) : null;
+      if (genreId !== undefined) data.genreId = genreId ? Number(genreId) : null;
 
       const movie = await prisma.movie.update({
         where: { id: Number(id) },
@@ -170,7 +161,7 @@ export class MovieController {
       });
 
       return res.status(200).send({ success: true, data: movie, message: 'Movie berhasil diperbarui' });
-    } catch (err) {
+    } catch (err: any) {
       console.error('Update movie error:', err);
       return res.status(500).send({ success: false, message: 'Gagal memperbarui movie' });
     }

@@ -25,6 +25,7 @@ const trailerUpdates: Record<string, string> = {
   'Gladiator': 'P5ieIbInFpg',
   'La La Land': 'lu4RHvouJH8',
   'Get Out': 'DzfpyUB60YY',
+  'Minions: Minions & Monsters': 'V-O-uBaHk3c',
   'Mad Max: Fury Road': 'hEJnMQG9ev8',
   'The Social Network': 'lB95KLmpLR4',
   'Whiplash': '7d_jQycdQGo',

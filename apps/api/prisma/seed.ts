@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { hashPassword } from '../src/helpers/crypto';
+import { hashPassword } from '../src/utils/crypto';
 
 const prisma = new PrismaClient();
 
@@ -120,18 +120,18 @@ const superadminMovies = [
     genre: 'Drama',
   },
   {
-    title: 'Get Out',
-    image: '/film/21-get-out.jpg',
+    title: 'Minions: Minions & Monsters',
+    image: '/film/minions.jpg',
     description:
-      'Kunjungan ke keluarga pacar berubah menjadi mimpi buruk yang mengerikan.',
+      'Niat membuat film sendiri, para Minions justru tak sengaja memicu teror monster sungguhan.',
     fullDescription:
-      'Seorang pria Afrika-Amerika mengunjungi keluarga pacar putihnya, dan ketegangan yang terasa aneh segera berubah menjadi mimpi buruk yang mengerikan.',
-    rating: 7.8,
-    year: 2017,
-    category: 'Horror',
-    trailerId: 'DzfpyUB60YY',
-    tomatoLink: 'https://www.rottentomatoes.com/m/get_out',
-    genre: 'Horror',
+      'Sekelompok Minions yang dipecat dari Hollywood nekat membuat film sendiri, namun berakhir kacau ketika mereka tak sengaja melepaskan monster sungguhan yang mengancam dunia.',
+    rating: 6.3,
+    year: 2026,
+    category: 'Animation',
+    trailerId: 'V-O-uBaHk3c',
+    tomatoLink: 'https://www.rottentomatoes.com/m/minions',
+    genre: 'Animation',
   },
 ];
 

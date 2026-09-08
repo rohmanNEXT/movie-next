@@ -1,11 +1,23 @@
-"use client";
+'use client';
 import React, { useEffect, useState } from 'react';
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MovieRow from '@/components/movie-ui/MovieRow';
-import { LuStar, LuPlay, LuPlus, LuChevronLeft, LuExternalLink, LuX, LuCheck, LuCirclePause, LuCirclePlay, LuVolume2, LuVolumeX } from 'react-icons/lu';
+import {
+  LuStar,
+  LuPlay,
+  LuPlus,
+  LuChevronLeft,
+  LuExternalLink,
+  LuX,
+  LuCheck,
+  LuCirclePause,
+  LuCirclePlay,
+  LuVolume2,
+  LuVolumeX,
+} from 'react-icons/lu';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMovieStore } from '@/store/feature/movie';
 import { useAuthStore } from '@/store/feature/auth';
@@ -14,7 +26,15 @@ import Image from 'next/image';
 const MovieDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   // const router = useRouter();
-  const { currentMovie: movie, myList, loading: storeLoading, getMovie, toggleMyList, clearCurrentMovie, recordMovieView } = useMovieStore();
+  const {
+    currentMovie: movie,
+    myList,
+    loading: storeLoading,
+    getMovie,
+    toggleMyList,
+    clearCurrentMovie,
+    recordMovieView,
+  } = useMovieStore();
   const user = useAuthStore((state) => state.user);
   const isSubscribed = !!user?.subscription?.isActive;
 
@@ -25,11 +45,13 @@ const MovieDetailPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   const [isPaused, setIsPaused] = useState(() => {
-    if (typeof window !== 'undefined') return localStorage.getItem('movie_isPaused') === 'true';
+    if (typeof window !== 'undefined')
+      return localStorage.getItem('movie_isPaused') === 'true';
     return false;
   });
   const [isMuted, setIsMuted] = useState(() => {
-    if (typeof window !== 'undefined') return localStorage.getItem('movie_isMuted') === 'true';
+    if (typeof window !== 'undefined')
+      return localStorage.getItem('movie_isMuted') === 'true';
     return false;
   });
 
@@ -39,7 +61,7 @@ const MovieDetailPage: React.FC = () => {
     if (iframeRef.current) {
       iframeRef.current.contentWindow?.postMessage(
         JSON.stringify({ event: 'command', func: command, args: [] }),
-        '*'
+        '*',
       );
     }
   };
@@ -48,7 +70,7 @@ const MovieDetailPage: React.FC = () => {
     if (iframeRef.current) {
       iframeRef.current.contentWindow?.postMessage(
         JSON.stringify({ event: 'command', func: command, args: [] }),
-        '*'
+        '*',
       );
     }
   };
@@ -87,14 +109,18 @@ const MovieDetailPage: React.FC = () => {
     if (isPreviewMode) setIsPreviewMode(false);
   }
 
-  const currentComputedSrc = movie?.trailerId ? `https://www.youtube.com/embed/${movie.trailerId}?autoplay=${isPaused ? '0' : '1'}&mute=${isMuted ? '1' : '0'}&loop=1&playlist=${movie.trailerId}&controls=0&showinfo=0&rel=0&enablejsapi=1&modestbranding=1&iv_load_policy=3` : '';
+  const currentComputedSrc = movie?.trailerId
+    ? `https://www.youtube.com/embed/${movie.trailerId}?autoplay=${isPaused ? '0' : '1'}&mute=${isMuted ? '1' : '0'}&loop=1&playlist=${movie.trailerId}&controls=0&showinfo=0&rel=0&enablejsapi=1&modestbranding=1&iv_load_policy=3`
+    : '';
 
   if (isPreviewMode !== latchedPreviewMode) {
     setLatchedPreviewMode(isPreviewMode);
     setLatchedSrc(isPreviewMode ? currentComputedSrc : null);
   }
 
-  const iframeSrc = isPreviewMode ? latchedSrc || currentComputedSrc : currentComputedSrc;
+  const iframeSrc = isPreviewMode
+    ? latchedSrc || currentComputedSrc
+    : currentComputedSrc;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -192,7 +218,10 @@ const MovieDetailPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-5 text-sm font-medium cursor-pointer">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-5 text-sm font-medium cursor-pointer"
+            >
               <LuChevronLeft size={16} /> Kembali
             </Link>
 
@@ -202,7 +231,9 @@ const MovieDetailPage: React.FC = () => {
             <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm mb-7 text-white/80 font-medium">
               <div className="flex items-center gap-1.5 text-yellow-400">
                 <LuStar size={16} fill="currentColor" />
-                <span className="font-semibold text-white/80">{movie.rating ?? 0}/5</span>
+                <span className="font-semibold text-white/80">
+                  {movie.rating ?? 0}/5
+                </span>
               </div>
               <span className="opacity-30">|</span>
               <span>{movie.year}</span>
@@ -227,7 +258,11 @@ const MovieDetailPage: React.FC = () => {
                 </button>
               ) : (
                 <button
-                  onClick={() => alert('Anda wajib berlangganan terlebih dahulu untuk menonton film ini.')}
+                  onClick={() =>
+                    alert(
+                      'Anda wajib berlangganan terlebih dahulu untuk menonton film ini.',
+                    )
+                  }
                   className="px-5 md:px-6 py-2 md:py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-full font-semibold transition-all active:scale-95 flex items-center gap-2 text-xs md:text-sm shadow-xl shadow-purple-900/20 cursor-pointer"
                 >
                   <LuPlay size={18} fill="white" /> Langganan untuk Menonton
@@ -254,16 +289,20 @@ const MovieDetailPage: React.FC = () => {
             <button
               onClick={toggleMute}
               className="p-2 md:p-2.5 bg-white/10 backdrop-blur-2xl hover:bg-white/20 border border-white/10 rounded-full text-white/80 transition-all active:scale-90 cursor-pointer"
-              title={isMuted ? "Aktifkan Suara" : "Bisukan"}
+              title={isMuted ? 'Aktifkan Suara' : 'Bisukan'}
             >
               {isMuted ? <LuVolumeX size={18} /> : <LuVolume2 size={18} />}
             </button>
             <button
               onClick={togglePlayPause}
               className="p-2 md:p-2.5 bg-white/10 backdrop-blur-2xl hover:bg-white/20 border border-white/10 rounded-full text-white/80 transition-all active:scale-90 cursor-pointer"
-              title={isPaused ? "Putar Video" : "Jeda Video"}
+              title={isPaused ? 'Putar Video' : 'Jeda Video'}
             >
-              {isPaused ? <LuCirclePlay size={18} /> : <LuCirclePause size={18} />}
+              {isPaused ? (
+                <LuCirclePlay size={18} />
+              ) : (
+                <LuCirclePause size={18} />
+              )}
             </button>
           </div>
         )}
@@ -277,7 +316,9 @@ const MovieDetailPage: React.FC = () => {
                 Deskripsi
               </h2>
               <p className="text-white/60 text-xs md:text-sm font-medium leading-relaxed max-w-2xl pl-5 mt-2">
-                {movie.fullDescription || movie.description || "Tidak ada deskripsi tersedia untuk movie ini."}
+                {movie.fullDescription ||
+                  movie.description ||
+                  'Tidak ada deskripsi tersedia untuk movie ini.'}
               </p>
             </section>
 
@@ -319,21 +360,24 @@ const MovieDetailPage: React.FC = () => {
             <div className="pl-5">
               <div className="relative aspect-2/3 max-w-[280px] md:max-w-[320px] rounded-3xl overflow-hidden apple-shadow group mx-auto md:mx-0">
                 <div className="relative w-full h-full overflow-hidden">
-  <Image
-    src={imgSrc || `https://picsum.photos/seed/${movie.title.replace(/\s/g, '')}/500/750`}
-    alt={movie.title}
-    fill
-    sizes="100vw"
-    className="object-cover transition-transform duration-700 group-hover:scale-110"
-    referrerPolicy="no-referrer"
-    unoptimized
-    onError={() => {
-      setImgSrc(
-        `https://picsum.photos/seed/${movie.title.replace(/\s/g, '')}/500/750`
-      );
-    }}
-  />
-</div>
+                  <Image
+                    src={
+                      imgSrc ||
+                      `https://picsum.photos/seed/${movie.title.replace(/\s/g, '')}/500/750`
+                    }
+                    alt={movie.title}
+                    fill
+                    sizes="100vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                    unoptimized
+                    onError={() => {
+                      setImgSrc(
+                        `https://picsum.photos/seed/${movie.title.replace(/\s/g, '')}/500/750`,
+                      );
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -392,6 +436,7 @@ const MovieDetailPage: React.FC = () => {
         )}
       </AnimatePresence>
     </main>
-  )};
+  );
+};
 
 export default MovieDetailPage;
